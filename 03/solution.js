@@ -19,15 +19,9 @@ const findCommon = (...args) => {
 
   args.forEach(a => {
     const subTable = new Array(table.length).fill(0);
-
-    a.forEach(b => {
-      subTable[convertAscii(b) - 1] = subTable[convertAscii(b) - 1] + 1;
-    });
-
+    a.forEach(b => subTable[convertAscii(b) - 1]++);
     subTable.forEach((b, i) => {
-      if (b > 0) {
-        table[i] = table[i] + 1;
-      }
+      if (b > 0) table[i]++;
     });
   });
 
@@ -40,8 +34,6 @@ const lines = fs
   .split('\n')
   // For Part 1
   // .map(l => [l.substring(0, l.length / 2), l.substring(l.length / 2)])
-  // .map(([a, b]) => [a.split(''), b.split('')])
-  // .map(c => findCommon(...c))
   // End Part 1
 
   // For Part 2
@@ -58,9 +50,10 @@ const lines = fs
 
     return acc;
   }, [])
+  // End Part 2
+
   .map(a => a.map(b => b.split('')))
   .map(i => findCommon(...i))
-  // End Part 2
   .reduce((acc, v) => acc + v, 0);
 
 console.log(lines);
