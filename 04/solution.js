@@ -10,20 +10,14 @@ const lines = fs
   .split('\n')
   .map(l => l.split(','))
   .map(l => l.map(s => s.split('-').map(n => Number(n))))
+  // Part 1
+  // .filter(([[a, b], [c, d]]) => {
+  //   return (a <= c && d <= b) || (c <= a && b <= d);
+  // }); // End Part 1
+
+  // Part 2
   .filter(([[a, b], [c, d]]) => {
-    if (a <= c) {
-      if (d <= b) {
-        return true;
-      }
-    }
-
-    if (c <= a) {
-      if (b <= d) {
-        return true;
-      }
-    }
-
-    return false;
-  });
+    return (a >= c && a <= d) || (c >= a && c <= b);
+  }); // End Part 2
 
 console.log(lines.length);
