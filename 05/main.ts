@@ -49,9 +49,7 @@ moves.forEach(m => {
   const from = mainStack[m.from - 1];
   const to = mainStack[m.to - 1];
 
-  for (let i = 0; i < m.size; i++) {
-    to.push(from.pop()!);
-  }
+  to.push(...from.splice(from.length - m.size, m.size));
 });
 
 const result = mainStack.map(s => s.pop()).join('');
