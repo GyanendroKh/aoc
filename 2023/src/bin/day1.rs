@@ -7,6 +7,15 @@ fn main() {
         .iter()
         .map(|line| {
             let digits: Vec<char> = line
+                .replace("one", "on1e")
+                .replace("two", "tw2o")
+                .replace("three", "thre3e")
+                .replace("four", "fou4r")
+                .replace("five", "fiv5e")
+                .replace("six", "si6x")
+                .replace("seven", "seve7n")
+                .replace("eight", "eigh8t")
+                .replace("nine", "nin9e")
                 .chars()
                 .filter_map(|c| {
                     return if c.is_numeric() { Some(c) } else { None };
@@ -19,7 +28,7 @@ fn main() {
         })
         .sum();
 
-    println!("Part 1: {numbers}");
+    println!("{numbers}");
 }
 
 fn read_lines(filename: &str) -> Vec<String> {
