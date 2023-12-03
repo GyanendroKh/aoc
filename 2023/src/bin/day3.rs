@@ -33,7 +33,7 @@ fn main() {
                     digit_start = -1;
                 }
 
-                if c == '*' {
+                if c != '.' {
                     symbols.insert((l_idx, idx));
                 }
             }
@@ -82,11 +82,11 @@ fn main() {
                 return acc;
             });
 
-            if matches.len() == 2 {
-                return Some(matches.get(0).unwrap().num * matches.get(1).unwrap().num);
-            }
+            // if matches.len() == 2 {
+            //     return Some(matches.get(0).unwrap().num * matches.get(1).unwrap().num);
+            // }
 
-            return None;
+            return Some(matches.iter().map(|m| m.num).sum::<u32>());
         })
         .sum::<u32>();
 
