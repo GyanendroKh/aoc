@@ -1,4 +1,8 @@
-use std::{collections::HashSet, fs::read_to_string, str::FromStr};
+use std::{
+    collections::{HashMap, HashSet},
+    fs::read_to_string,
+    str::FromStr,
+};
 
 #[derive(Debug)]
 struct Card {
@@ -99,7 +103,33 @@ fn main() {
         })
         .sum::<u32>();
 
-    println!("{:?}", sum);
+    println!("Part 1: {:?}", sum);
+
+    let mut copy_count = HashMap::<usize, u32>::new();
+
+    for i in 0..cards.len() {
+        copy_count.insert(i + 1, 1);
+    }
+
+    for c in cards {
+        let copies = copy_count.get(&c.no).unwrap_or_else(|| &1).clone();
+
+        let winning = c.nos_u_have.iter().fold(0u32, |acc, n| {
+            if c.winning_nos.contains(n) {
+                acc + 1
+            } else {
+                acc
+            }
+        });
+
+        for w_c in c.no + 1..(c.no + (winning + 1) as usize) {
+            copy_count.insert(w_c, copy_count.get(&w_c).unwrap_or(&0) + 1 * copies);
+        }
+    }
+
+    let copy_sum = copy_count.values().sum::<u32>();
+
+    println!("Part 2: {}", copy_sum);
 }
 
 fn read_lines(filename: &str) -> Vec<Card> {
