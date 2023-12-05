@@ -1,5 +1,7 @@
 use std::{collections::HashMap, fs::read_to_string};
 
+use itertools::Itertools;
+
 fn main() {
     let sections = read_lines("./data/day5-input.txt");
 
@@ -54,7 +56,20 @@ fn main() {
 
     let min = seeds
         .iter()
-        .map(|s| decode_mapping(s, "seed", "location", &key_mappings, &all_mappings).unwrap())
+        .chunks(2)
+        .into_iter()
+        .map(|mut c| {
+            let s = c.next().unwrap();
+            let n = c.next().unwrap();
+
+            (s.clone()..(s + n))
+                .into_iter()
+                .map(|ss| {
+                    decode_mapping(&ss, "seed", "location", &key_mappings, &all_mappings).unwrap()
+                })
+                .min()
+                .unwrap()
+        })
         .min()
         .unwrap();
 
@@ -72,7 +87,7 @@ fn decode_mapping(
     let values = all_mappings.get(&(start, mapping)).unwrap();
 
     match &values.iter().find_map(|(s, d, n)| {
-        if num >= s && num <= &(s + n) {
+        if num >= s && num <= &(s + n - 1) {
             return Some(d + &(num - s));
         }
 
